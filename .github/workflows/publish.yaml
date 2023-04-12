@@ -43,41 +43,41 @@ defaults:
     shell: bash
 
 jobs:
-  build-antora:
-    runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  # build-antora:
+  #   runs-on: ubuntu-latest
+  #   permissions:
+  #     pages: write
+  #     id-token: write
+  #   environment:
+  #     name: github-pages
+  #     url: ${{ steps.deployment.outputs.page_url }}
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v3
 
-      - uses: actions/setup-node@v3
-        with:
-          node-version-file: 'antora/package.json'
-          cache: 'npm'
-          cache-dependency-path: 'antora/package-lock.json'
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version-file: 'antora/package.json'
+  #         cache: 'npm'
+  #         cache-dependency-path: 'antora/package-lock.json'
 
-      - name: Setup Go environment
-        uses: actions/setup-go@v4
-        with:
-          go-version: '1.19'
-          cache: true
+  #     - name: Setup Go environment
+  #       uses: actions/setup-go@v4
+  #       with:
+  #         go-version: '1.19'
+  #         cache: true
 
-      - name: Generate website
-        run: npm --prefix antora ci && npm --prefix antora run build
+  #     - name: Generate website
+  #       run: npm --prefix antora ci && npm --prefix antora run build
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v3
+  #     - name: Setup Pages
+  #       uses: actions/configure-pages@v3
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
-        with:
-          path: 'public'
+  #     - name: Upload artifact
+  #       uses: actions/upload-pages-artifact@v1
+  #       with:
+  #         path: 'public'
 
   build-hugo:
     runs-on: ubuntu-latest
@@ -125,17 +125,18 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    needs: [build-hugo]
     steps:
       - name: Download hugo artifact
         uses: actions/download-artifact@v3
         with:
           name: build-hugo
           path: ./public
-      - name: Download antora artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: build-antora
-          path: ./public/docs  
+      # - name: Download antora artifact
+      #   uses: actions/download-artifact@v3
+      #   with:
+      #     name: build-antora
+      #     path: ./public/docs  
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
