@@ -1,0 +1,15 @@
+name: Default
+description: >-
+  Stuff and things
+sources:
+  - name: Default
+    policy:
+      - github.com/enterprise-contract/ec-policies//policy/lib
+      - https://github.com/robnester-rh/ec-policies?ref=EC-172//policy/release_plan
+    data:
+      - github.com/release-engineering/rhtap-ec-policy//data
+    config:
+      include:
+      - "basic.*"
+      exclude:
+        []
