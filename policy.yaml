@@ -1,10 +1,17 @@
 name: Default
 description:
-  Stuff and things
+  Stuff and things, and things and stuff
 sources:
   - name: Default
     policy:
       - github.com/enterprise-contract/ec-policies//policy/lib
+        # Working repository example:
       - github.com/robnester-rh/ec-policies?ref=EC-172//policy/release_plan
+        # Bad - includes https for a repo:
+        #- https://github.com/robnester-rh/ec-policies?ref=EC-172//policy/release_plan
+        # Working direct file.
+        #- https://github.com/robnester-rh/flugelhorn/blob/main/foo.tar.gz
+        # Bad - invalid dir
+        #- github.com/robnester-rh/ec-policies?ref=EC-172//policy/release_plankdksfj
     data:
       - github.com/release-engineering/rhtap-ec-policy//data
